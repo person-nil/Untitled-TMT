@@ -1,19 +1,19 @@
 let modInfo = {
-	name: "The ??? Tree",
-	author: "nobody",
+	name: "The Upgrade Tree",
+	author: "ANormalGuy",
 	pointsName: "points",
 	modFiles: ["layers.js", "tree.js"],
 
 	discordName: "",
 	discordLink: "",
 	initialStartPoints: new Decimal (10), // Used for hard resets and new players
-	offlineLimit: 1,  // In hours
+	offlineLimit: 0,  // In hours
 }
 
 // Set your version in num and name
 let VERSION = {
 	num: "0.0",
-	name: "Literally nothing",
+	name: "",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
@@ -25,7 +25,7 @@ let winText = `Congratulations! You have reached the end and beaten this game, b
 
 // If you add new functions anywhere inside of a layer, and those functions have an effect when called, add them here.
 // (The ones here are examples, all official functions are already taken care of)
-var doNotCallTheseFunctionsEveryTick = ["blowUpEverything"]
+var doNotCallTheseFunctionsEveryTick = [""]
 
 function getStartPoints(){
     return new Decimal(modInfo.initialStartPoints)
@@ -38,10 +38,11 @@ function canGenPoints(){
 
 // Calculate points/sec!
 function getPointGen() {
-	if(!canGenPoints())
-		return new Decimal(0)
-
+	if(!canGenPoints()) return new Decimal(0)
 	let gain = new Decimal(1)
+	gain = gain.times(upgradeEffect("p", 11))
+	gain = gain.times(upgradeEffect("p", 14).plus(1))
+	if (hasUpgrade("p", 21)) gain = gain.times(10)
 	return gain
 }
 
